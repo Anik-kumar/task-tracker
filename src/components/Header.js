@@ -12,7 +12,7 @@ const Header = ({title}) => {
       <h2> {title} </h2>
       <Button color="lightslategray" onclick={onClickBtn} />
     </header>
-  )
+  );
 }
 
 Header.defaultProps = {
