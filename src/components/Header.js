@@ -1,16 +1,12 @@
 import PropTypes from "prop-types";
 import Button from "./Button";
 
-const Header = ({title}) => {
-
-  const onClickBtn = () => {
-    console.log("click from header");
-  }
+const Header = ({title, onToggleForm, toggleBtnText}) => {
 
   return (
     <header className="header">
       <h2> {title} </h2>
-      <Button color="lightslategray" onclick={onClickBtn} />
+      <Button color={toggleBtnText ? "#b7410e" : "#417DC1"} text={toggleBtnText ? 'CLOSE' : 'ADD'} onclick={onToggleForm} />
     </header>
   );
 }
