@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import About from "./components/About";
 
 function App() {
   const [toggleAddTask, setToggleAddTask] = useState(false);
@@ -20,7 +23,7 @@ function App() {
     fetchtasks();
   }, []);
 
-  
+
   const getSingleTask = async (id) => {
     const result = await fetch(`http://localhost:8000/tasks/${id}`);
 
@@ -78,15 +81,35 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <Header onToggleForm={() => setToggleAddTask(!toggleAddTask)} toggleBtnText={toggleAddTask}  />
-      { toggleAddTask && <AddTask onAddTask={addTask} /> }
-      
-      { (!toggleAddTask && tasklist.length > 0) && (
-        <Tasks tasks={tasklist} delTask={deleteTask} updateReminder={handleReminder} />
-      )}
-      {tasklist.length < 1 && <p>No tasks found</p> }
-    </div>
+    <Router>
+      <div className="container">
+        <Header
+          onToggleForm={() => setToggleAddTask(!toggleAddTask)}
+          toggleBtnText={toggleAddTask}
+        />
+
+        {tasklist.length < 1 && <p>No tasks found</p>}
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {toggleAddTask && <AddTask onAddTask={addTask} />}
+
+              {!toggleAddTask && tasklist.length > 0 && (
+                <Tasks
+                  tasks={tasklist}
+                  delTask={deleteTask}
+                  updateReminder={handleReminder}
+                />
+              )}
+            </>
+          )}
+        />
+        <Route path="/about" component={About} />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
